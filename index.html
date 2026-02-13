@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Welcome</title>
+
+<style>
+
+:root{
+/* ✅ NEW COLORS */
+--darkTeal:#0F3D3E;
+--darkTeal2:#082728;
+--dustyRose:#D6A4A4;
+--dustyRoseLight:#E6BFBF;
+--white:#FFF8F8;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+
+/* 🔥 Premium Gradient */
+background: linear-gradient(135deg, var(--darkTeal), var(--darkTeal2));
+color:var(--white);
+}
+
+/* ✅ CENTER BOX */
+.card{
+
+width:420px;
+max-width:90%;
+padding:35px;
+
+border-radius:28px; /* premium curve */
+
+text-align:center;
+
+/* glass effect */
+background: rgba(214,164,164,0.08);
+
+border:1px solid rgba(255,255,255,0.08);
+
+backdrop-filter: blur(12px);
+
+box-shadow:
+0 25px 60px rgba(0,0,0,0.6);
+
+}
+
+/* welcome */
+.title{
+
+font-size:24px;
+font-weight:700;
+margin-bottom:20px;
+letter-spacing:1px;
+}
+
+/* TIMER BOX */
+.timerBox{
+
+padding:18px;
+border-radius:20px;
+
+background: rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.07);
+
+margin-bottom:20px;
+}
+
+.timer{
+
+display:flex;
+justify-content:center;
+gap:12px;
+flex-wrap:wrap;
+}
+
+.unit{
+
+background: rgba(0,0,0,0.25);
+padding:12px;
+border-radius:14px;
+min-width:80px;
+}
+
+.num{
+font-size:28px;
+font-weight:bold;
+}
+
+.label{
+font-size:12px;
+opacity:.7;
+}
+
+/* poem */
+.poem{
+
+margin:18px 0;
+padding:14px;
+
+border-radius:16px;
+
+background: rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.06);
+
+line-height:1.6;
+font-size:15px;
+color:#ffdede;
+}
+
+/* button */
+button{
+
+width:100%;
+padding:14px;
+
+border:none;
+border-radius:16px;
+
+font-size:16px;
+font-weight:bold;
+
+background: linear-gradient(135deg,var(--dustyRose),var(--dustyRoseLight));
+
+color:#222;
+
+cursor:not-allowed;
+opacity:.5;
+
+transition:.3s;
+}
+
+button.enabled{
+cursor:pointer;
+opacity:1;
+transform:scale(1.03);
+}
+
+.status{
+margin-top:10px;
+font-size:13px;
+opacity:.7;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="title">
+WELCOME RAM 🤝
+</div>
+
+<div class="timerBox">
+<div class="timer">
+
+<div class="unit">
+<div id="days" class="num">00</div>
+<div class="label">Days</div>
+</div>
+
+<div class="unit">
+<div id="hours" class="num">00</div>
+<div class="label">Hours</div>
+</div>
+
+<div class="unit">
+<div id="minutes" class="num">00</div>
+<div class="label">Min</div>
+</div>
+
+<div class="unit">
+<div id="seconds" class="num">00</div>
+<div class="label">Sec</div>
+</div>
+
+</div>
+</div>
+
+
+<!-- ❤️ One Side Love Kavithai -->
+<div class="poem">
+
+One side nu therinjalum…  
+En heart un peyar dhaan beat adikkudhu ❤️  
+
+Nee reply kudukalanaalum parava illa…  
+Naan anuppura ovvoru wish-um  
+unakku silent-ah reach aagum nu namburen 🌹  
+
+Un life la naan mukkiyam illainaalum…  
+En life la nee dhaan everything.
+
+</div>
+
+
+<button id="nextBtn" disabled onclick="goNext()">
+NEXT PAGE ➜
+</button>
+
+<div id="status" class="status">
+Opens at 14-02-2026 12:00 AM
+</div>
+
+</div>
+
+<script>
+
+const unlockDate =
+new Date("2026-02-14T00:00:00+05:30").getTime();
+
+function updateTimer(){
+
+const now = new Date().getTime();
+const gap = unlockDate - now;
+
+if(gap <= 0){
+
+document.getElementById("days").innerText="00";
+document.getElementById("hours").innerText="00";
+document.getElementById("minutes").innerText="00";
+document.getElementById("seconds").innerText="00";
+
+let btn=document.getElementById("nextBtn");
+
+btn.disabled=false;
+btn.classList.add("enabled");
+
+document.getElementById("status").innerText="Unlocked ❤️ Click Next!";
+
+return;
+}
+
+let d=Math.floor(gap/(1000*60*60*24));
+let h=Math.floor((gap%(1000*60*60*24))/(1000*60*60));
+let m=Math.floor((gap%(1000*60*60))/(1000*60));
+let s=Math.floor((gap%(1000*60))/1000);
+
+document.getElementById("days").innerText=d;
+document.getElementById("hours").innerText=h;
+document.getElementById("minutes").innerText=m;
+document.getElementById("seconds").innerText=s;
+
+}
+
+setInterval(updateTimer,1000);
+
+function goNext(){
+window.location.href="page2.html"; // change if needed
+}
+
+updateTimer();
+
+</script>
+
+</body>
+</html>

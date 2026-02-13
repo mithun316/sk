@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Page 2 - Questions</title>
+
+<!-- ✅ EmailJS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("fOTvZeRNjEewlDGuQ"); // ✅ Public Key
+  })();
+</script>
+
+<style>
+:root{
+  --darkTeal:#0F3D3E;
+  --darkTeal2:#082728;
+  --dustyRose:#D6A4A4;
+  --dustyRoseLight:#E6BFBF;
+  --white:#FFF8F8;
+
+  --glass: rgba(214,164,164,0.10);
+  --stroke: rgba(255,255,255,0.12);
+  --shadow: 0 25px 60px rgba(0,0,0,.6);
+  --muted: rgba(255,248,248,.72);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui, Segoe UI, Arial, sans-serif;}
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:22px;
+  background: radial-gradient(900px 500px at 15% 20%, rgba(230,191,191,.15), transparent 55%),
+              radial-gradient(900px 500px at 85% 80%, rgba(135,226,227,.12), transparent 55%),
+              linear-gradient(135deg, var(--darkTeal), var(--darkTeal2));
+  color: var(--white);
+  overflow-x:hidden;
+}
+
+.card{
+  width:min(820px, 96vw);
+  background: var(--glass);
+  border:1px solid var(--stroke);
+  backdrop-filter: blur(12px);
+  border-radius:30px;
+  box-shadow: var(--shadow);
+  padding: 18px 18px 16px;
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:"";
+  position:absolute;
+  inset:-90px;
+  background:
+    radial-gradient(280px 280px at 20% 10%, rgba(230,191,191,.24), transparent 65%),
+    radial-gradient(320px 320px at 85% 90%, rgba(135,226,227,.20), transparent 65%);
+  filter: blur(2px);
+  pointer-events:none;
+}
+.inner{position:relative; z-index:1;}
+
+.header{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  margin-bottom:10px;
+}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border-radius:999px;
+  background: rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  font-weight:800;
+  letter-spacing:.5px;
+}
+.small{
+  font-size:13px;
+  color: var(--muted);
+}
+
+.progressWrap{
+  width: 260px;
+  max-width: 100%;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.10);
+  overflow:hidden;
+}
+.progressBar{
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background: linear-gradient(135deg, var(--dustyRoseLight), #87E2E3);
+  transition: width .35s ease;
+}
+
+.q{
+  margin: 14px 0;
+  padding: 16px;
+  border-radius: 22px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  transform: translateY(10px);
+  opacity: 0;
+  animation: fadeUp .55s ease forwards;
+}
+.q:nth-child(2){animation-delay:.05s}
+.q:nth-child(3){animation-delay:.10s}
+.q:nth-child(4){animation-delay:.15s}
+.q:nth-child(5){animation-delay:.20s}
+.q:nth-child(6){animation-delay:.25s}
+@keyframes fadeUp{ to{ transform: translateY(0); opacity: 1; } }
+
+.qTitle{ font-size:15px; line-height:1.55; color: rgba(255,248,248,.96); }
+.qTitle b{ color: #ffd6d6; }
+
+.btnRow{ margin-top: 12px; display:flex; gap:12px; flex-wrap:wrap; }
+
+.ynBtn{
+  flex:1;
+  min-width: 160px;
+  padding: 12px 14px;
+  border:none;
+  border-radius: 18px;
+  font-weight: 900;
+  font-size: 15px;
+  cursor:pointer;
+  transition: transform .12s ease, opacity .12s ease;
+  position:relative;
+  overflow:hidden;
+}
+.yes{
+  color:#1f1212;
+  background: linear-gradient(135deg, var(--dustyRose), var(--dustyRoseLight));
+  box-shadow: 0 14px 26px rgba(0,0,0,.22);
+}
+.no{
+  color: var(--white);
+  background: rgba(0,0,0,.28);
+  border: 1px solid rgba(255,255,255,.14);
+}
+.selected{
+  outline:2px solid rgba(255,255,255,.22);
+  box-shadow: 0 16px 40px rgba(0,0,0,.26);
+}
+.shake{ animation: shake .22s ease-in-out 0s 2; }
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  50%{transform:translateX(6px)}
+  75%{transform:translateX(-4px)}
+  100%{transform:translateX(0)}
+}
+
+textarea{
+  width:100%;
+  margin-top:10px;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.18);
+  color: var(--white);
+  font-size: 14px;
+  outline:none;
+  min-height: 90px;
+  resize: vertical;
+}
+
+.footer{
+  margin-top: 12px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  padding-top: 6px;
+}
+.note{ font-size: 13px; color: var(--muted); }
+
+.nextBtn{
+  width: 240px;
+  max-width:100%;
+  padding: 14px;
+  border:none;
+  border-radius: 18px;
+  font-weight: 1000;
+  font-size: 16px;
+  color:#062326;
+  background: linear-gradient(135deg, var(--dustyRoseLight), #87E2E3);
+  cursor:not-allowed;
+  opacity:.45;
+  box-shadow:none;
+  transition:.2s;
+}
+.nextBtn.enabled{
+  cursor:pointer;
+  opacity:1;
+  box-shadow: 0 16px 34px rgba(0,0,0,.26);
+}
+
+.floatHeart{
+  position:fixed;
+  bottom:-40px;
+  left:0;
+  font-size:18px;
+  opacity:.28;
+  pointer-events:none;
+  animation: floatUp linear forwards;
+  z-index:0;
+}
+@keyframes floatUp{
+  from{ transform: translateY(0) translateX(0) scale(.9); opacity:0; }
+  10%{opacity:.28;}
+  to{ transform: translateY(-115vh) translateX(var(--dx)) scale(1.2); opacity:0; }
+}
+</style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="inner">
+      <div class="header">
+        <div class="badge">💗 Page 2 — 5 Questions</div>
+        <div class="progressWrap"><div class="progressBar" id="progressBar"></div></div>
+        <div class="small" id="progressText">0 / 5 completed</div>
+      </div>
+
+      <div class="q" id="q1" data-q="q1">
+        <div class="qTitle">
+          1. Ellarthu life laiyum oru thavuingalukaga Valkai irukun…<br/>
+          enaku <b>Ne</b>, unnaku na iruka na illaiya? (YES / NO)
+        </div>
+        <div class="btnRow">
+          <button class="ynBtn yes" data-ans="yes">YES ✅</button>
+          <button class="ynBtn no"  data-ans="no">NO ❌</button>
+        </div>
+      </div>
+
+      <div class="q" id="q2" data-q="q2">
+        <div class="qTitle">
+          2. If parents Accepted… Will you Marry me? (YES / NO)
+        </div>
+        <div class="btnRow">
+          <button class="ynBtn yes" data-ans="yes">YES 💍</button>
+          <button class="ynBtn no"  data-ans="no">NO</button>
+        </div>
+      </div>
+
+      <div class="q" id="q3" data-q="q3">
+        <div class="qTitle">3. If married… Na unna eppadi pathukanum? (Write)</div>
+        <textarea id="q3text" placeholder="Type here..."></textarea>
+      </div>
+
+      <div class="q" id="q4" data-q="q4">
+        <div class="qTitle">4. How did u feeled my 1st Gift? (Write)</div>
+        <textarea id="q4text" placeholder="Type here..."></textarea>
+      </div>
+
+      <div class="q" id="q5" data-q="q5">
+        <div class="qTitle">5. Will u my Valentine !! (YES / NO)</div>
+        <div class="btnRow">
+          <button class="ynBtn yes" data-ans="yes">YES ❤️</button>
+          <button class="ynBtn no"  data-ans="no">NO</button>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="note" id="note">Answer all 5… then NEXT PAGE unlock aagum 🙂</div>
+        <button class="nextBtn" id="nextBtn" disabled onclick="goNext()">NEXT PAGE ➜</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // ✅ EmailJS IDs
+  const SERVICE_ID  = "service_po2m9r8";
+  const TEMPLATE_ID = "template_7v2y62x";
+
+  // hearts bg
+  function spawnFloatHeart(){
+    const el = document.createElement("div");
+    el.className = "floatHeart";
+    el.textContent = Math.random() < 0.5 ? "💗" : "💞";
+    el.style.left = (Math.random()*100) + "vw";
+    el.style.fontSize = (14 + Math.random()*16) + "px";
+    el.style.setProperty("--dx", (Math.random()*40 - 20) + "vw");
+    const dur = 6 + Math.random()*6;
+    el.style.animationDuration = dur + "s";
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(), dur*1000 + 200);
+  }
+  setInterval(spawnFloatHeart, 650);
+
+  const state = { q1:null, q2:null, q3:false, q4:false, q5:null };
+
+  const progressBar = document.getElementById("progressBar");
+  const progressText = document.getElementById("progressText");
+  const nextBtn = document.getElementById("nextBtn");
+  const note = document.getElementById("note");
+
+  function setSelected(qBox, ans){
+    qBox.querySelectorAll(".ynBtn").forEach(b=>{
+      b.classList.toggle("selected", b.dataset.ans === ans);
+    });
+  }
+
+  // ✅ NO click → NO small, YES big
+  function applyNoYesTrick(qBox, ans){
+    const yesBtn = qBox.querySelector(".yes");
+    const noBtn  = qBox.querySelector(".no");
+    if(!yesBtn || !noBtn) return;
+
+    if(ans === "no"){
+      yesBtn.style.transform = "scale(1.22)";
+      noBtn.style.transform  = "scale(0.82)";
+      noBtn.classList.add("shake");
+      setTimeout(()=>noBtn.classList.remove("shake"), 500);
+    }else{
+      yesBtn.style.transform = "scale(1.05)";
+      noBtn.style.transform  = "scale(1)";
+    }
+  }
+
+  function completedCount(){
+    let c = 0;
+    if(state.q1 !== null) c++;
+    if(state.q2 !== null) c++;
+    if(state.q3) c++;
+    if(state.q4) c++;
+    if(state.q5 !== null) c++;
+    return c;
+  }
+
+  function updateProgress(){
+    const c = completedCount();
+    progressBar.style.width = (c/5)*100 + "%";
+    progressText.textContent = `${c} / 5 completed`;
+
+    if(c === 5){
+      nextBtn.disabled = false;
+      nextBtn.classList.add("enabled");
+      note.textContent = "Done ✅ NEXT PAGE click pannunga!";
+    }else{
+      nextBtn.disabled = true;
+      nextBtn.classList.remove("enabled");
+      note.textContent = "Answer all 5… then NEXT PAGE unlock aagum 🙂";
+    }
+  }
+
+  // YES/NO click
+  document.querySelectorAll(".q").forEach(qBox=>{
+    const key = qBox.dataset.q;
+
+    qBox.querySelectorAll(".ynBtn").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const ans = btn.dataset.ans;
+        if(key === "q1" || key === "q2" || key === "q5"){
+          state[key] = ans;
+          setSelected(qBox, ans);
+          applyNoYesTrick(qBox, ans);
+          updateProgress();
+        }
+      });
+    });
+  });
+
+  // textareas
+  const q3text = document.getElementById("q3text");
+  const q4text = document.getElementById("q4text");
+
+  q3text.addEventListener("input", ()=>{
+    state.q3 = q3text.value.trim().length > 0;
+    updateProgress();
+  });
+
+  q4text.addEventListener("input", ()=>{
+    state.q4 = q4text.value.trim().length > 0;
+    updateProgress();
+  });
+
+  // ✅ NEXT: NO TIMER / NO DELAY. Click => send => success => page3
+  async function goNext(){
+    if(nextBtn.disabled) return;
+
+    const payload = {
+      from_name: "Valentine Reply",
+      from_email: "auto@love.com",
+      q1: state.q1,
+      q2: state.q2,
+      q3: q3text.value.trim(),
+      q4: q4text.value.trim(),
+      q5: state.q5,
+      time: new Date().toLocaleString("en-IN")
+    };
+
+    // (optional) save too
+    localStorage.setItem("valentine_answers", JSON.stringify(payload));
+
+    try{
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, payload);
+      window.location.href = "page3.html";
+    }catch(err){
+      console.log(err);
+      alert("Email send failed 😢 Check EmailJS template variables / service.");
+    }
+  }
+
+  updateProgress();
+</script>
+
+</body>
+</html>
